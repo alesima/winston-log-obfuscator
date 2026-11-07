@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alesima/winston-log-obsfucator.git"
+    "url": "git+https://github.com/alesima/winston-log-obfuscator.git"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
