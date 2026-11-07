@@ -64,6 +64,18 @@ describe('obfuscateMessage', () => {
     expect(obfuscateMessage(input, options)).toBe(expected);
   });
 
+  it('should obfuscate PIX EVP keys by default', () => {
+    const input = 'Chave PIX: 123e4567-e89b-42d3-a456-426614174000';
+    const expected = 'Chave PIX: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+    expect(obfuscateMessage(input)).toBe(expected);
+  });
+
+  it('should respect the option to disable PIX obfuscation', () => {
+    const options: ObfuscationOptions = { pix: false };
+    const input = 'Chave PIX: 123e4567-e89b-42d3-a456-426614174000';
+    expect(obfuscateMessage(input, options)).toBe(input);
+  });
+
   describe('Brazilian data obfuscation', () => {
     it('should obfuscate CPF by default', () => {
       const input = 'User CPF is 123.456.789-01';

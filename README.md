@@ -67,6 +67,8 @@ const logger = winston.createLogger({
       phonesShowLast: 4,
       uuid: true,
       uuidShowLast: 4,
+      pix: true, // Obfuscate PIX EVP keys (default: true)
+      pixShowLast: 0,
       regions: {
         brazil: {
           cpf: true,
@@ -114,6 +116,8 @@ const logger = winston.createLogger({
 - `phonesShowLast`: Number of digits to show at the end (default: 0)
 - `uuid`: Obfuscate UUIDs (default: false)
 - `uuidShowLast`: Number of digits to show at the end (default: 0)
+- `pix`: Obfuscate Brazilian PIX EVP keys — UUID v4 format (default: true). Other PIX key types (CPF, CNPJ, email, phone) are covered by their own options.
+- `pixShowLast`: Number of characters to show at the end (default: 0)
 - `customPatterns`: Array of custom regex patterns to obfuscate
 - `regions.brazil.cpf`: Obfuscate Brazilian CPF numbers (default: true)
 - `regions.brazil.cpfShowLast`: Number of digits to show at the end (default: 0)
@@ -144,6 +148,8 @@ interface ObfuscationOptions {
   phonesShowLast?: number;
   uuid?: boolean;
   uuidShowLast?: number;
+  pix?: boolean;
+  pixShowLast?: number;
   customPatterns?: Array<{ pattern: RegExp; replacement: string }>;
   regions?: {
     brazil?: {

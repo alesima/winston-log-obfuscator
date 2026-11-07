@@ -11,6 +11,7 @@ import { obfuscateCPF } from './brazil/cpf';
 import { obfuscateCNPJ } from './brazil/cnpj';
 import { obfuscateBrazilianPhones } from './brazil/phones';
 import { obfuscateBoleto } from './brazil/boleto';
+import { obfuscatePIX } from './pix';
 
 /**
  * Deep merge two option objects
@@ -59,6 +60,10 @@ export interface ObfuscationOptions {
   uuid?: boolean;
   /** Number of digits to show at the end of UUIDs (0 to mask all) */
   uuidShowLast?: number;
+  /** Whether to obfuscate Brazilian PIX keys (default: true) */
+  pix?: boolean;
+  /** Number of characters to show at the end of PIX keys (0 to mask all) */
+  pixShowLast?: number;
   /** Custom patterns to obfuscate */
   customPatterns?: Array<{ pattern: RegExp; replacement: string }>;
   /** Region-specific obfuscation options */
@@ -99,6 +104,8 @@ const DEFAULT_OPTIONS: ObfuscationOptions = {
   phonesShowLast: 0,
   uuid: false,
   uuidShowLast: 0,
+  pix: true,
+  pixShowLast: 0,
   customPatterns: [],
   regions: {
     brazil: {
@@ -159,6 +166,10 @@ export function obfuscateMessage(message: string, options: ObfuscationOptions = 
 
   if (opts.uuid) {
     obfuscated = obfuscateUUIDs(obfuscated, opts.uuidShowLast);
+  }
+
+  if (opts.pix) {
+    obfuscated = obfuscatePIX(obfuscated, opts.pixShowLast);
   }
 
   if (opts.customPatterns) {

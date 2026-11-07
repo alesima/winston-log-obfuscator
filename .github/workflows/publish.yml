@@ -39,6 +39,14 @@ jobs:
       - name: Update npm for OIDC support
         run: npm install -g npm@latest
 
+      - name: Debug auth setup (temporary)
+        run: |
+          npm --version
+          node --version
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then echo "NODE_AUTH_TOKEN: unset"; else echo "NODE_AUTH_TOKEN: set (len ${#NODE_AUTH_TOKEN})"; fi
+          echo "--- userconfig:"; cat "${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}" 2>/dev/null | sed 's/_authToken=.*/_authToken=[redacted]/' || echo "(no userconfig)"
+          echo "--- id-token request:"; if [ -z "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ]; then echo "OIDC env: missing"; else echo "OIDC env: present"; fi
+
       - name: Publish package (npm Trusted Publishing, no static token)
         run: |
           unset NODE_AUTH_TOKEN
