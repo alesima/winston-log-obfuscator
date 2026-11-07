@@ -11,7 +11,7 @@ import { obfuscateCPF } from './brazil/cpf';
 import { obfuscateCNPJ } from './brazil/cnpj';
 import { obfuscateBrazilianPhones } from './brazil/phones';
 import { obfuscateBoleto } from './brazil/boleto';
-import { obfuscatePIX } from './pix';
+import { obfuscatePIX } from './brazil/pix';
 
 /**
  * Deep merge two option objects

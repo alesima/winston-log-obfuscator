@@ -11,7 +11,7 @@
  * @param showLast Number of characters to show at the end of the key (default is 0).
  * @returns The text with PIX keys obfuscated.
  */
-import { maskDigits } from './utils/mask';
+import { maskDigits } from '../utils/mask';
 
 // UUID v4: random keys issued by the Central Bank (EVP) follow this format.
 const pixEvpRegex = /\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}\b/g;
