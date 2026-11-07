@@ -23,4 +23,9 @@ describe('obfuscateEmails', () => {
     const input = 'Text user@ test.com';
     expect(obfuscateEmails(input)).toBe(input);
   });
+
+  it('should not treat a pipe as a valid TLD character', () => {
+    const input = 'Text a@b.c|om here';
+    expect(obfuscateEmails(input)).toBe(input);
+  });
 });

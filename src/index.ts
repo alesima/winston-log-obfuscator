@@ -12,9 +12,9 @@ export function obfuscateFormat(options: ObfuscationOptions = {}): winston.Logfo
       info.message = obfuscateMessage(info.message, options);
     }
 
-    // Also obfuscate any additional string fields
+    // Also obfuscate any additional string fields (message already handled above)
     for (const key in info) {
-      if (typeof info[key] === 'string' && key !== 'level' && key !== 'timestamp') {
+      if (typeof info[key] === 'string' && key !== 'message' && key !== 'level' && key !== 'timestamp') {
         info[key] = obfuscateMessage(info[key], options);
       }
     }

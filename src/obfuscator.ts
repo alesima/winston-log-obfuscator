@@ -2,29 +2,37 @@
  * Utility functions for obfuscating sensitive data in log messages
  */
 
-/**
- * Utility functions for obfuscating sensitive data in log messages
- */
-
 import { obfuscateCreditCards } from './credit-cards';
 import { obfuscateSSN } from './ssn';
 import { obfuscateEmails } from './emails';
 import { obfuscatePhones } from './phones';
+import { obfuscateUUIDs } from './uuid';
 import { obfuscateCPF } from './brazil/cpf';
 import { obfuscateCNPJ } from './brazil/cnpj';
 import { obfuscateBrazilianPhones } from './brazil/phones';
 import { obfuscateBoleto } from './brazil/boleto';
 
 /**
- * Deep merge two objects
+ * Deep merge two option objects
  */
-function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
+function deepMerge<T extends object>(target: T, source: Partial<T>): T {
   const result = { ...target };
-  for (const key in source) {
-    if (source[key] && typeof source[key] === 'object' && typeof result[key] === 'object' && !Array.isArray(source[key])) {
-      result[key] = deepMerge(result[key], source[key]);
-    } else if (source[key] !== undefined) {
-      result[key] = source[key];
+  for (const key of Object.keys(source) as (keyof T)[]) {
+    const sourceValue = source[key];
+    if (sourceValue === undefined) {
+      continue;
+    }
+    const targetValue = result[key];
+    if (
+      typeof sourceValue === 'object' &&
+      sourceValue !== null &&
+      !Array.isArray(sourceValue) &&
+      typeof targetValue === 'object' &&
+      targetValue !== null
+    ) {
+      result[key] = deepMerge(targetValue, sourceValue as Partial<typeof targetValue>);
+    } else {
+      result[key] = sourceValue as T[keyof T];
     }
   }
   return result;
@@ -147,6 +155,10 @@ export function obfuscateMessage(message: string, options: ObfuscationOptions = 
 
   if (opts.phones) {
     obfuscated = obfuscatePhones(obfuscated, opts.phonesShowLast);
+  }
+
+  if (opts.uuid) {
+    obfuscated = obfuscateUUIDs(obfuscated, opts.uuidShowLast);
   }
 
   if (opts.customPatterns) {

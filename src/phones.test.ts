@@ -25,6 +25,11 @@ describe('obfuscatePhones', () => {
     expect(obfuscatePhones(input)).toBe(expected);
   });
 
+  it('should not partially match longer digit runs', () => {
+    const input = 'Call 1234-567-8901 or 555-123-45678';
+    expect(obfuscatePhones(input)).toBe(input);
+  });
+
   it('should handle multiple phone numbers', () => {
     const input = 'Calls (555) 123-4567 and 888-999-0000';
     const expected = 'Calls (XXX) XXX-XXXX and (XXX) XXX-XXXX';

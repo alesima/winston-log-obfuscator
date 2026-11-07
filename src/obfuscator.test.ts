@@ -52,6 +52,18 @@ describe('obfuscateMessage', () => {
     expect(obfuscateMessage(input, options)).toBe(expected);
   });
 
+  it('should leave UUIDs alone by default', () => {
+    const input = 'UUID: 123e4567-e89b-12d3-a456-426614174000';
+    expect(obfuscateMessage(input)).toBe(input);
+  });
+
+  it('should obfuscate UUIDs when enabled', () => {
+    const options: ObfuscationOptions = { uuid: true };
+    const input = 'UUID: 123e4567-e89b-12d3-a456-426614174000';
+    const expected = 'UUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
+    expect(obfuscateMessage(input, options)).toBe(expected);
+  });
+
   describe('Brazilian data obfuscation', () => {
     it('should obfuscate CPF by default', () => {
       const input = 'User CPF is 123.456.789-01';
